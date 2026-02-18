@@ -2,8 +2,6 @@ using UnityEngine;
 
 public sealed class AudioSettingsService : IAudioSettingsService
     {
-        private const string MusicVolKey = "music_volume";
-        private const string SfxVolKey = "sfx_volume";
         private const string MusicEnabledKey = "music_enabled";
         private const string SfxEnabledKey = "sfx_enabled";
 
@@ -20,27 +18,9 @@ public sealed class AudioSettingsService : IAudioSettingsService
             _storage = storage;
             _bus = bus;
 
-            MusicVolume = Mathf.Clamp01(_storage.GetFloat(MusicVolKey, 1f));
-            SfxVolume = Mathf.Clamp01(_storage.GetFloat(SfxVolKey, 1f));
             MusicEnabled = _storage.GetInt(MusicEnabledKey, 1) == 1;
             SfxEnabled = _storage.GetInt(SfxEnabledKey, 1) == 1;
 
-            Publish();
-        }
-
-        public void SetMusicVolume(float v)
-        {
-            MusicVolume = Mathf.Clamp01(v);
-            _storage.SetFloat(MusicVolKey, MusicVolume);
-            _storage.Flush();
-            Publish();
-        }
-
-        public void SetSfxVolume(float v)
-        {
-            SfxVolume = Mathf.Clamp01(v);
-            _storage.SetFloat(SfxVolKey, SfxVolume);
-            _storage.Flush();
             Publish();
         }
 
@@ -62,6 +42,6 @@ public sealed class AudioSettingsService : IAudioSettingsService
 
         private void Publish()
         {
-            _bus.Publish(new AudioSettingsChangedEvent(MusicVolume, SfxVolume, MusicEnabled, SfxEnabled));
+            _bus.Publish(new AudioSettingsChangedEvent(MusicEnabled, SfxEnabled));
         }
     }

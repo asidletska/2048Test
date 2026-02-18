@@ -26,9 +26,15 @@ public sealed class CubeActor : MonoBehaviour, IPoolable
     public void EnterAimMode()
     {
         IsMerging = false;
+
         Rigidbody.isKinematic = true;
         Rigidbody.velocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;
+
+        Rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        Rigidbody.interpolation = RigidbodyInterpolation.None;
+
+        Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     public void LaunchMode()
@@ -36,18 +42,22 @@ public sealed class CubeActor : MonoBehaviour, IPoolable
         Rigidbody.isKinematic = false;
         Rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+
+        Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
 
     public void OnGetFromPool()
     {
-        IsMerging = false;
-        EnterAimMode();
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         gameObject.SetActive(true);
+        EnterAimMode();
     }
 
     public void OnReturnToPool()
     {
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         IsMerging = false;
-        EnterAimMode();
+        Rigidbody.velocity = Vector3.zero;
+        Rigidbody.angularVelocity = Vector3.zero;
     }
 }

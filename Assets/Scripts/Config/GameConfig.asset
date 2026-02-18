@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   probability2: 0.75
   dragSensitivity: 0.015
-  aimMoveSpeed: 20
+  aimMoveSpeed: 662.9
   launchImpulse: 12
-  minMergeImpulse: 2.5
+  minMergeImpulse: 0
   pairCooldown: 0.1
   absorbDuration: 0.14
   settleSpeedThreshold: 0.15

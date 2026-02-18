@@ -40,6 +40,6 @@ public sealed class SettleDetector : ISettleDetector
 
     public void Reset()
     {
-        
+        _timer = 0f;
     }
 }

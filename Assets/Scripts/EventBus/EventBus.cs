@@ -113,20 +113,33 @@ public sealed class EventBus : IEventBus
 
     public readonly struct AudioSettingsChangedEvent
     {
-        public readonly float MusicVolume;
-        public readonly float SfxVolume;
         public readonly bool MusicEnabled;
         public readonly bool SfxEnabled;
 
-        public AudioSettingsChangedEvent(float musicVolume, float sfxVolume, bool musicEnabled, bool sfxEnabled)
+        public AudioSettingsChangedEvent( bool musicEnabled, bool sfxEnabled)
         {
-            MusicVolume = musicVolume;
-            SfxVolume = sfxVolume;
             MusicEnabled = musicEnabled;
             SfxEnabled = sfxEnabled;
         }
     }
-
     public readonly struct PauseRequestedEvent { }
-    public readonly struct ResumeRequestedEvent { }
     public readonly struct RestartRequestedEvent { }
+
+    public readonly struct GameOverEvent { }
+    public readonly struct ResumeRequestedEvent { }
+
+    public readonly struct OpenPanelEvent
+    {
+        public readonly UiPanelId Panel;
+        public OpenPanelEvent(UiPanelId panel) => Panel = panel;
+    }
+    public readonly struct ClosePanelEvent
+    {
+        public readonly UiPanelId Panel;
+        public ClosePanelEvent(UiPanelId panel) => Panel = panel;
+    }
+    public readonly struct TogglePanelEvent
+    {
+        public readonly UiPanelId Panel;
+        public TogglePanelEvent(UiPanelId panel) => Panel = panel;
+    }

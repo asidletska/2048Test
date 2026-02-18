@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameController : MonoBehaviour
+public sealed class GameController
 {
     private readonly GameConfig _config;
     private readonly IBoardBounds _bounds;
@@ -25,15 +25,19 @@ public class GameController : MonoBehaviour
     {
         var v = _roller.Roll();
         CurrentCube = _spawner.SpawnAtStart(v);
-        _targetX = CurrentCube.transform.position.x;
+        if (CurrentCube == null) return;
+
+        // sync aim target to current cube position
+        _targetX = CurrentCube.Rigidbody.position.x;
     }
 
     public void BeginAim()
     {
         if (CurrentCube == null) return;
-        var p = _bounds.SpawnPosition;
-        p.x = _targetX;
-        CurrentCube.transform.position = p;
+
+        // Ensure aim mode
+        CurrentCube.EnterAimMode();
+        _targetX = CurrentCube.Rigidbody.position.x;
     }
 
     public void Drag(float screenDx)
@@ -46,11 +50,13 @@ public class GameController : MonoBehaviour
     public void FixedAimUpdate(float fdt)
     {
         if (CurrentCube == null) return;
-        if (!CurrentCube.Rigidbody.isKinematic) return;
 
-        var p = CurrentCube.transform.position;
+        var rb = CurrentCube.Rigidbody;
+        if (rb == null || !rb.isKinematic) return;
+
+        var p = rb.position;
         p.x = Mathf.Lerp(p.x, _targetX, fdt * _config.aimMoveSpeed);
-        CurrentCube.transform.position = p;
+        rb.MovePosition(p);
     }
 
     public void Launch()
@@ -59,9 +65,13 @@ public class GameController : MonoBehaviour
 
         CurrentCube.LaunchMode();
         CurrentCube.Rigidbody.AddForce(_bounds.Forward * _config.launchImpulse, ForceMode.Impulse);
+
+        // Important: reset settle timer so Resolve doesn't instantly spawn again
         _settle.Reset();
+
+        // After launch current cube is no longer controlled by aim
+        CurrentCube = null;
     }
 
     public bool IsSettled(float dt) => _settle.IsSettled(dt);
 }
-

@@ -73,6 +73,9 @@ using UnityEngine;
             _input.OnPress += OnPress;
             _input.OnDragDeltaX += OnDrag;
             _input.OnRelease += OnRelease;
+
+            // Ensure we can drag immediately (even if press is missed)
+            _game.BeginAim();
         }
 
         public void Exit()
@@ -86,8 +89,8 @@ using UnityEngine;
 
         public void FixedTick(float fdt)
         {
-            if (_aiming)
-                _game.FixedAimUpdate(fdt);
+            // Always update aim smoothing while in Aim state
+            _game.FixedAimUpdate(fdt);
         }
 
         private void OnPress()
@@ -98,7 +101,13 @@ using UnityEngine;
 
         private void OnDrag(float dx)
         {
-            if (!_aiming) return;
+            // If user starts dragging without a Began event, still allow aiming.
+            if (!_aiming)
+            {
+                _aiming = true;
+                _game.BeginAim();
+            }
+
             _game.Drag(dx);
         }
 
