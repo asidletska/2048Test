@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
  public sealed class BootstrapState : IState
     {
@@ -74,7 +71,6 @@ using UnityEngine;
             _input.OnDragDeltaX += OnDrag;
             _input.OnRelease += OnRelease;
 
-            // Ensure we can drag immediately (even if press is missed)
             _game.BeginAim();
         }
 
@@ -89,7 +85,6 @@ using UnityEngine;
 
         public void FixedTick(float fdt)
         {
-            // Always update aim smoothing while in Aim state
             _game.FixedAimUpdate(fdt);
         }
 
@@ -101,7 +96,6 @@ using UnityEngine;
 
         private void OnDrag(float dx)
         {
-            // If user starts dragging without a Began event, still allow aiming.
             if (!_aiming)
             {
                 _aiming = true;

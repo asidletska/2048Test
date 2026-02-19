@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6447914a0954b6d97815aedabc2d80, type: 3}
+  m_Name: Days
+  m_EditorClassIdentifier: 
+  days:
+  - coins: 50
+    icon: {fileID: 2211318171991514223, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  - coins: 75
+    icon: {fileID: 3271692925405711974, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  - coins: 100
+    icon: {fileID: -3981515943121409145, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  - coins: 150
+    icon: {fileID: 6360151145083682662, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  - coins: 200
+    icon: {fileID: 8671853037640039452, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  - coins: 250
+    icon: {fileID: -419350384077510912, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  - coins: 300
+    icon: {fileID: -7339680291517374565, guid: 7f9865cf6ac20f7468e13d5a5daff8ef, type: 3}
+  cooldownHours: 24

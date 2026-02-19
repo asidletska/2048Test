@@ -3,17 +3,17 @@ public sealed class EconomyService : IEconomyService
 {
     private const string CoinsKey = "coins";
 
-    private readonly ISave _storage;
+    private readonly ISave _save;
     private readonly IEventBus _bus;
 
     public int Coins { get; private set; }
 
-    public EconomyService(ISave storage, IEventBus bus)
+    public EconomyService(ISave save, IEventBus bus)
     {
-        _storage = storage;
+        _save = save;
         _bus = bus;
 
-        Coins = _storage.GetInt(CoinsKey, 0);
+        Coins = _save.GetInt(CoinsKey, 0);
         _bus.Publish(new CoinsChangedEvent(Coins));
     }
 
@@ -22,22 +22,22 @@ public sealed class EconomyService : IEconomyService
         if (amount <= 0) return;
 
         Coins += amount;
-        _storage.SetInt(CoinsKey, Coins);
-        _storage.Flush();
+        _save.SetInt(CoinsKey, Coins);
+        _save.Flush();
 
         _bus.Publish(new CoinsChangedEvent(Coins));
     }
 
-    public bool TrySpend(int amount)
+  /*  public bool TrySpend(int amount)
     {
         if (amount <= 0) return true;
         if (Coins < amount) return false;
 
         Coins -= amount;
-        _storage.SetInt(CoinsKey, Coins);
-        _storage.Flush();
+        _save.SetInt(CoinsKey, Coins);
+        _save.Flush();
 
         _bus.Publish(new CoinsChangedEvent(Coins));
         return true;
-    }
+    }*/
 }

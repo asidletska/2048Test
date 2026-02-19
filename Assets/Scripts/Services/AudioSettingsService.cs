@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public sealed class AudioSettingsService : IAudioSettingsService
     {
         private const string MusicEnabledKey = "music_enabled";
@@ -7,9 +5,7 @@ public sealed class AudioSettingsService : IAudioSettingsService
 
         private readonly ISave _storage;
         private readonly IEventBus _bus;
-
-        public float MusicVolume { get; private set; }
-        public float SfxVolume { get; private set; }
+        
         public bool MusicEnabled { get; private set; }
         public bool SfxEnabled { get; private set; }
 

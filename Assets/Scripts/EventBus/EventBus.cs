@@ -60,7 +60,11 @@ public sealed class EventBus : IEventBus
         }
     }
 }
-
+public readonly struct ClaimDailyDayRequestedEvent
+{
+    public readonly int DayIndex;
+    public ClaimDailyDayRequestedEvent(int dayIndex) => DayIndex = dayIndex;
+}
   public readonly struct ScoreChangedEvent
     {
         public readonly int Score;
@@ -78,7 +82,6 @@ public sealed class EventBus : IEventBus
         public readonly int Coins;
         public CoinsChangedEvent(int coins) => Coins = coins;
     }
-
     public readonly struct CubeMergedEvent
     {
         public readonly int FromValue;
@@ -98,18 +101,21 @@ public sealed class EventBus : IEventBus
     public readonly struct DailyStateEvent
     {
         public readonly bool CanClaim;
+        public readonly int DayIndex;       
         public readonly int Reward;
-        public readonly int Streak;
-        public readonly string NextClaimUtc;
+        public readonly int ClaimedMask;    
+        public readonly string NextClaimUtc; 
 
-        public DailyStateEvent(bool canClaim, int reward, int streak, string nextClaimUtc)
+        public DailyStateEvent(bool canClaim, int dayIndex, int reward, int claimedMask, string nextClaimUtc)
         {
             CanClaim = canClaim;
+            DayIndex = dayIndex;
             Reward = reward;
-            Streak = streak;
+            ClaimedMask = claimedMask;
             NextClaimUtc = nextClaimUtc;
         }
     }
+
 
     public readonly struct AudioSettingsChangedEvent
     {
@@ -142,4 +148,10 @@ public sealed class EventBus : IEventBus
     {
         public readonly UiPanelId Panel;
         public TogglePanelEvent(UiPanelId panel) => Panel = panel;
+    }
+
+    public readonly partial struct RewardGrantedEvent
+    {
+        public readonly int Coins;
+        public RewardGrantedEvent(int coins) => Coins = coins;
     }

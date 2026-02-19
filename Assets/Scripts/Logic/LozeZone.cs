@@ -1,29 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LozeZone : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public sealed class LozeZone : MonoBehaviour
 {
-    [Header("Lose condition")]
+    [Header("Rules")]
     [SerializeField] private float stuckSeconds = 1.5f;
-
-    [Header("Tag filter")]
+    
     [SerializeField] private string cubeTag = "Cube";
 
+    [Header("Dependencies")]
+    [SerializeField] private MonoBehaviour busProvider;
+
     private IEventBus _bus;
-
     private readonly Dictionary<CubeActor, float> _timers = new(64);
-
     private bool _gameOver;
 
-    public void Construct(IEventBus bus)
-    {
-        _bus = bus;
-    }
+    public void Construct(IEventBus bus) => _bus = bus;
 
     private void Awake()
     {
         var col = GetComponent<Collider>();
         col.isTrigger = true;
+
+        _bus ??= BusResolver.Resolve(busProvider, this);
     }
 
     private void OnDisable()
@@ -35,15 +35,17 @@ public class LozeZone : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (_gameOver) return;
+        _bus ??= BusResolver.Resolve(busProvider, this);
         if (_bus == null) return;
 
-        if (!other.CompareTag(cubeTag))
-            return;
-
         var cube = other.GetComponentInParent<CubeActor>();
+        if (cube == null) return;
 
-        if (cube == null)
-            return;
+        if (!string.IsNullOrWhiteSpace(cubeTag))
+        {
+            bool ok = cube.CompareTag(cubeTag) || other.CompareTag(cubeTag);
+            if (!ok) return;
+        }
 
         if (!cube.gameObject.activeInHierarchy)
         {
@@ -51,40 +53,35 @@ public class LozeZone : MonoBehaviour
             return;
         }
 
-        float time = 0f;
+        float t = _timers.TryGetValue(cube, out var prev) ? prev : 0f;
+        t += Time.deltaTime;
+        _timers[cube] = t;
 
-        if (_timers.TryGetValue(cube, out var prev))
-            time = prev;
-
-        time += Time.fixedDeltaTime;
-
-        _timers[cube] = time;
-
-        if (time >= stuckSeconds)
+        if (t >= stuckSeconds)
             TriggerGameOver();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag(cubeTag))
-            return;
-
         var cube = other.GetComponentInParent<CubeActor>();
+        if (cube == null) return;
 
-        if (cube != null)
-            _timers.Remove(cube);
+        if (!string.IsNullOrWhiteSpace(cubeTag))
+        {
+            bool ok = cube.CompareTag(cubeTag) || other.CompareTag(cubeTag);
+            if (!ok) return;
+        }
+
+        _timers.Remove(cube);
     }
 
     private void TriggerGameOver()
     {
         if (_gameOver) return;
-
         _gameOver = true;
 
         _bus.Publish(new GameOverEvent());
-
         _bus.Publish(new OpenPanelEvent(UiPanelId.GameOver));
-
         _bus.Publish(new PauseRequestedEvent());
     }
 }

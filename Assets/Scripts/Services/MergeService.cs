@@ -117,7 +117,6 @@ public sealed class MergeService : IMergeService
         int to = from * 2;
         winner.SetValue(new Po2Value(to));
 
-        // cleanup loser safely: unsubscribe relay, remove from registry, release to pool
         var relay = loser.GetComponent<CubeCollision>();
         if (relay != null) Unregister(relay);
 

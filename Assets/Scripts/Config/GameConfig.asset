@@ -9,19 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd576fc2006ed4660a8d45e8dbc55dba, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bc2c3dcc95a74700a4318d98c3e968e, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   probability2: 0.75
-  dragSensitivity: 0.015
-  aimMoveSpeed: 662.9
+  dragSensitivity: 1.91
+  aimMoveSpeed: 600
   launchImpulse: 12
-  minMergeImpulse: 0
+  minMergeImpulse: -1.09
   pairCooldown: 0.1
   absorbDuration: 0.14
-  settleSpeedThreshold: 0.15
+  settleSpeedThreshold: 0.84
   settleTime: 0.35
-  cubePrewarm: 24
+  cubePrewarm: 25
   fxPrewarm: 8
   popScale: 1.12
   popDuration: 0.1
+  rewardCoinsPerGame: 10

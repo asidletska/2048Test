@@ -7,16 +7,16 @@ public sealed class GameConfig : ScriptableObject
     [Range(0f, 1f)] public float probability2 = 0.75f;
 
     [Header("Aim (drag)")]
-    public float dragSensitivity = 0.015f;  // screen px -> world X
-    public float aimMoveSpeed = 20f;        // smoothing speed
+    public float dragSensitivity = 0.015f;  
+    public float aimMoveSpeed = 20f;      
 
     [Header("Launch")]
     public float launchImpulse = 12f;
 
     [Header("Merge")]
-    public float minMergeImpulse = 2.5f;    // impulse-like threshold
-    public float pairCooldown = 0.10f;      // avoid double merges
-    public float absorbDuration = 0.14f;    // loser -> winner
+    public float minMergeImpulse = 2.5f;  
+    public float pairCooldown = 0.10f;     
+    public float absorbDuration = 0.14f;    
 
     [Header("Resolve / Settle")]
     public float settleSpeedThreshold = 0.15f;
@@ -29,4 +29,8 @@ public sealed class GameConfig : ScriptableObject
     [Header("Juice")]
     public float popScale = 1.12f;
     public float popDuration = 0.10f;
+    
+    [Header("RewardGame")]
+    public int rewardCoinsPerGame = 10;
+    
 }

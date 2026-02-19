@@ -1,6 +1,4 @@
 using UnityEngine;
-
-
 public sealed class PrgressService : ISave
 {
     public int GetInt(string key, int defaultValue = 0) => PlayerPrefs.GetInt(key, defaultValue);

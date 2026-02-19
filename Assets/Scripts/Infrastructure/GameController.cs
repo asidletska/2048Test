@@ -27,7 +27,6 @@ public sealed class GameController
         CurrentCube = _spawner.SpawnAtStart(v);
         if (CurrentCube == null) return;
 
-        // sync aim target to current cube position
         _targetX = CurrentCube.Rigidbody.position.x;
     }
 
@@ -35,7 +34,6 @@ public sealed class GameController
     {
         if (CurrentCube == null) return;
 
-        // Ensure aim mode
         CurrentCube.EnterAimMode();
         _targetX = CurrentCube.Rigidbody.position.x;
     }
@@ -65,11 +63,7 @@ public sealed class GameController
 
         CurrentCube.LaunchMode();
         CurrentCube.Rigidbody.AddForce(_bounds.Forward * _config.launchImpulse, ForceMode.Impulse);
-
-        // Important: reset settle timer so Resolve doesn't instantly spawn again
         _settle.Reset();
-
-        // After launch current cube is no longer controlled by aim
         CurrentCube = null;
     }
 
