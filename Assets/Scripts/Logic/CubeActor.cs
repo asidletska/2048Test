@@ -28,7 +28,7 @@ public sealed class CubeActor : MonoBehaviour, IPoolable
         IsMerging = false;
 
         Rigidbody.isKinematic = true;
-        Rigidbody.velocity = Vector3.zero;
+        Rigidbody.linearVelocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;
 
         Rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
@@ -57,7 +57,7 @@ public sealed class CubeActor : MonoBehaviour, IPoolable
     {
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         IsMerging = false;
-        Rigidbody.velocity = Vector3.zero;
+        Rigidbody.linearVelocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;
     }
 }

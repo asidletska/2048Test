@@ -90,7 +90,7 @@ public sealed class DailyRewardService : IDailyRewardService
             return (true, dayIndex, Rewards[dayIndex - 1], claimedMask, now.ToString("O"));
         }
 
-        var next = lastClaim.AddSeconds(24);
+        var next = lastClaim.AddHours(24);
         bool canClaim = now >= next;
 
         return (canClaim, dayIndex, Rewards[dayIndex - 1], claimedMask, next.ToString("O"));

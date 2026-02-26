@@ -27,7 +27,7 @@ public sealed class SettleDetector : ISettleDetector
             var rb = cube.Rigidbody;
             if (rb == null) continue;
 
-            if (!rb.isKinematic && rb.velocity.sqrMagnitude > _speedThreshold * _speedThreshold)
+            if (!rb.isKinematic && rb.linearVelocity.sqrMagnitude > _speedThreshold * _speedThreshold)
             {
                 _timer = 0f;
                 return false;

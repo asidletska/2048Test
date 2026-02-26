@@ -74,7 +74,7 @@ public sealed class MergeService : IMergeService
         var contact = c.GetContact(0);
         var dir = (contact.point - a.Rigidbody.worldCenterOfMass).normalized;
 
-        var relativeVelocity = a.Rigidbody.velocity - other.Rigidbody.velocity;
+        var relativeVelocity = a.Rigidbody.linearVelocity - other.Rigidbody.linearVelocity;
         var approachSpeed = Vector3.Dot(relativeVelocity, dir);
 
         var impactLike = Mathf.Abs(approachSpeed) * Mathf.Max(0.001f, a.Rigidbody.mass);
@@ -94,7 +94,7 @@ public sealed class MergeService : IMergeService
         loser.SetMerging(true);
 
         loser.Rigidbody.isKinematic = true;
-        loser.Rigidbody.velocity = Vector3.zero;
+        loser.Rigidbody.linearVelocity = Vector3.zero;
         loser.Rigidbody.angularVelocity = Vector3.zero;
 
         var startPos = loser.transform.position;
